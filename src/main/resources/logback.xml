@@ -28,7 +28,7 @@
         <appender-ref ref="STDOUT" />
     </root>
 
-    <logger name="movies" level="DEBUG">
+    <logger name="movies" level="INFO">
         <appender-ref ref="FILE" />
     </logger>
 
