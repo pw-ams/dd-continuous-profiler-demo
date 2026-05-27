@@ -239,13 +239,17 @@ public class Server {
 		public static final Map<String, CrewRole> ROLES_MAP =
 			Arrays.stream(CrewRole.class.getEnumConstants()).collect(Collectors.toMap(CrewRole::toString, Function.identity()));
 
-		public static CrewRole parseRole(String inputRole) {
-			try {
-				return CrewRole.valueOf(inputRole);
-			} catch (IllegalArgumentException e) {
-				LOG.trace("Unknown role", e);
-				return CrewRole.Other;
+			public static CrewRole parseRole(String inputRole) {
+				CrewRole role = CrewRole.ROLES_MAP.get(inputRole);
+				return role != null ? role : CrewRole.Other;
 			}
+			//public static CrewRole parseRole(String inputRole) {
+			//try {
+			//	return CrewRole.valueOf(inputRole);
+			//} catch (IllegalArgumentException e) {
+			//	LOG.trace("Unknown role", e);
+			//	return CrewRole.Other;
+			//}
 		}
 	}
 	public record StatsResult(int matchedMovies, Map<CrewRole, Long> crewCount) { }
