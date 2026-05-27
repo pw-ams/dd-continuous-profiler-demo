@@ -133,14 +133,24 @@ public class Server {
 	}
 
 	private static Object moviesEndpoint(Request req, Response res) {
-		var movies = MOVIES.get();
-		movies = sortByDescReleaseDate(movies);
-		var query = req.queryParamOrDefault("q", req.queryParams("query"));
-		if (query != null) {
-			movies = movies.stream().filter(m -> m.title.toUpperCase().matches(".*" + query.toUpperCase() + ".*")).toList();
-		}
-		return replyJSON(res, movies);
-	}
+        var movies = MOVIES.get();
+        movies = sortByDescReleaseDate(movies);
+        var query = req.queryParamOrDefault("q", req.queryParams("query"));
+        if (query != null) {
+            var p = Pattern.compile(query, Pattern.CASE_INSENSITIVE);
+            movies = movies.stream().filter(m -> m.title != null && p.matcher(m.title).find()).toList();
+        }
+        return replyJSON(res, movies);
+    }
+	//private static Object moviesEndpoint(Request req, Response res) {
+	//	var movies = MOVIES.get();
+	//	movies = sortByDescReleaseDate(movies);
+	//	var query = req.queryParamOrDefault("q", req.queryParams("query"));
+	//	if (query != null) {
+	//		movies = movies.stream().filter(m -> m.title.toUpperCase().matches(".*" + query.toUpperCase() + ".*")).toList();
+	//	}
+	//	return replyJSON(res, movies);
+	//}
 
 	private static List<Movie> sortByDescReleaseDate(List<Movie> movies) {
 		var sortedMovies = new ArrayList<Movie>(movies);
