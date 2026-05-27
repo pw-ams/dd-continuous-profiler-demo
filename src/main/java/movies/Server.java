@@ -144,14 +144,19 @@ public class Server {
 
 	private static List<Movie> sortByDescReleaseDate(List<Movie> movies) {
 		var sortedMovies = new ArrayList<Movie>(movies);
-		sortedMovies.sort(Comparator.comparing((Movie m) -> {
-			try {
-				return LocalDate.parse(m.releaseDate);
-			} catch (Exception e) {
-				return LocalDate.MIN;
-			}
-		}).reversed());
+		sortedMovies.sort(Comparator.comparing((Movie m) -> m.releaseDate).reversed());
 		return sortedMovies;
+	  }
+	//private static List<Movie> sortByDescReleaseDate(List<Movie> movies) {
+	//	var sortedMovies = new ArrayList<Movie>(movies);
+	//	sortedMovies.sort(Comparator.comparing((Movie m) -> {
+	//		try {
+	//			return LocalDate.parse(m.releaseDate);
+	//		} catch (Exception e) {
+	//			return LocalDate.MIN;
+	//		}
+	//	}).reversed());
+	//	return sortedMovies;
 	}
 
 	private static Object oldMoviesEndpoint(Request req, Response res) {
